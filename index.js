@@ -1,28 +1,33 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
-const mongoose = require("mongoose");
-const database = require("./db");
-
-// mongoose
-//   .connect("mongodb://127.0.0.1:27017/trail2")
-//   .then(() => console.log("MongoDB connected"))
-//   .catch((err) => console.log("Mongo Error", err));
-
-database();
+const dataBase = require("./db");
 
 const IncomeRouter = require("./routers/income.router");
 const ExpensesRouter = require("./routers/expenses.router");
 const SavingsRouter = require("./routers/savings.router");
 
+dataBase();
+
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
-  return res.send("Financial Management backend");
+  res.send("Financial Management backend");
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong" });
 });
 
 app.use("/incomes", IncomeRouter);
 app.use("/expenses", ExpensesRouter);
 app.use("/savings", SavingsRouter);
 
-app.listen(3000, () => console.log("Fima backend server started"));
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
