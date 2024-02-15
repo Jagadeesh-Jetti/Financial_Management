@@ -14,7 +14,6 @@ IncomeRouter.get("/", async (req, res) => {
 
 IncomeRouter.post("/", async (req, res) => {
   const { description, amount, category } = req.body;
-
   try {
     const updateIncome = new Income({ description, amount, category });
     await updateIncome.save();
