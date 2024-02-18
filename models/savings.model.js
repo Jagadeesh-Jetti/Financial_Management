@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const savingSchema = new mongoose.Schema(
   {
     description: String,
-    amount: String,
+    amount: Number,
     category: String,
   },
   { timestamps: true }
